@@ -3,14 +3,14 @@ const {sk} = require('../config/config')
 // const jwt = require('koa-jwt')({secret: sk})
 const { verify } = require('jsonwebtoken')
 
-const jwt = (ctx, next) => {
-  console.log(ctx.request)
+const jwt = async (ctx, next) => {
+  // console.log(ctx.request)
   const [, token] = ctx.request.headers['authorization'].split(' ')
   try {
-    console.log(token)
+    // console.log(token)
     const decode = verify(token, sk)
-    console.log(decode)
-    next(ctx)
+    // console.log(decode)
+    await next()
   } catch (error) {
     if (error) {
       console.log(error)

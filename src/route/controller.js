@@ -45,7 +45,7 @@ module.exports = {
       ctx.body = successRes(newUser)
     } catch (error) {
       console.log(error)
-      next(error)
+      await next(error)
     }
     
   },
@@ -66,7 +66,7 @@ module.exports = {
       let res = await Article.find()
       ctx.body = successRes(res)
     } catch (error) {
-      next(error)
+      await next(error)
     }
   },
 
@@ -83,7 +83,7 @@ module.exports = {
       })
       ctx.body = successRes(res)
     } catch (error) {
-      next(error)
+      await next(error)
     }
   },
 
@@ -102,13 +102,11 @@ module.exports = {
 
   async deleteArticle (ctx, next) {
     let id = ctx.params.id
-    console.log(ctx)
-    console.log(next)
     try {
       let res = await Article.findByIdAndRemove(id)
       ctx.body = successRes(res)
     } catch (error) {
-      next(error)
+      await next(error)
     }
   },
 
@@ -140,7 +138,7 @@ module.exports = {
         data: r
       }
     } catch (error) {
-      next(error)
+      await next(error)
     }
   }
 }

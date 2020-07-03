@@ -20,6 +20,15 @@ app.use(logger())
 
 app.use(router.routes()).use(router.allowedMethods())
 
+const handleError = (error) => {
+  if (error) {
+    ctx.status = error.status
+    ctx.body = error.message
+  }
+}
+
+app.use(handleError)
+
 // 连接数据库
 const uri = 'mongodb://localhost:27017/pomegranate'
 const connect = mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
