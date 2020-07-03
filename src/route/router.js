@@ -1,6 +1,26 @@
 const Router = require('koa-router')
 const {sk} = require('../config/config')
-const jwt = require('koa-jwt')({secret: sk})
+// const jwt = require('koa-jwt')({secret: sk})
+const { verify } = require('jsonwebtoken')
+
+const jwt = (ctx, next) => {
+  console.log(ctx.request)
+  const [, token] = ctx.request.headers['authorization'].split(' ')
+  try {
+    console.log(token)
+    const decode = verify(token, sk)
+    console.log(decode)
+    next(ctx)
+  } catch (error) {
+    if (error) {
+      console.log(error)
+      ctx.status = 401
+      ctx.body = {
+        msg: '鉴权失败！'
+      }
+    }
+  }
+}
 const {
   login,
   regin,

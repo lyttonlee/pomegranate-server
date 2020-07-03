@@ -1,5 +1,5 @@
 const {User, Article} = require('../model/model')
-const { sign } = require('jsonwebtoken')
+const { sign, verify } = require('jsonwebtoken')
 const { sk } = require('../config/config')
 const formidable = require('formidable')
 const path = require('path')
@@ -22,12 +22,14 @@ const errorRes = (msg='失败') => {
 
 module.exports = {
   async login (ctx) {
-    console.log(ctx.request)
+    // console.log(ctx.request)
     const {name, password} = ctx.request.body
     const user = await User.findOne({name, password})
-    console.log(user)
+    // console.log(user)
     if (user) {
-      const token = sign({name: user.name, _id: user._id}, sk, {expiresIn: '12h'})
+      const token = sign({ id: user._id }, sk, {expiresIn: '12h'})
+      // const decode = verify(token, sk)
+      // console.log(decode)
       ctx.body = successRes(token)
     } else {
       ctx.body = errorRes('用户名或密码错误!')
@@ -100,6 +102,8 @@ module.exports = {
 
   async deleteArticle (ctx, next) {
     let id = ctx.params.id
+    console.log(ctx)
+    console.log(next)
     try {
       let res = await Article.findByIdAndRemove(id)
       ctx.body = successRes(res)
@@ -122,13 +126,6 @@ module.exports = {
           }
           const res = Object.values(files).map((file) => {
             // console.log(file)
-            // const [, type] = file.type.split('/')
-            // const oldPath = file.path
-            // const newPath = path.join(__dirname, `../../public/upload/${new Date().valueOf() + '.' + type}`)
-            // fs.rename(oldPath, newPath, (err) => {
-            //   console.log(err)
-            // })
-            // fs.unlink(oldPath, err => console.log(err))
             const name = file.path.split('\\').pop()
             const newPath = '/upload/' + name
             return 'http://localhost:9001' + newPath
