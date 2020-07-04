@@ -5,11 +5,21 @@ const { verify } = require('jsonwebtoken')
 
 const jwt = async (ctx, next) => {
   // console.log(ctx.request)
-  const [, token] = ctx.request.headers['authorization'].split(' ')
+  let headers = ctx.request.headers
+  let token = ''
+  if (headers['authorization']) {
+    token = headers['authorization'].split(' ')[1]
+  } else {
+    ctx.status = 401
+    ctx.body = {
+      msg: '鉴权失败！'
+    }
+    return
+  }
   try {
     // console.log(token)
     const decode = verify(token, sk)
-    // console.log(decode)
+    console.log(decode)
     await next()
   } catch (error) {
     if (error) {

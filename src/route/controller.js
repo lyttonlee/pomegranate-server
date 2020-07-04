@@ -1,6 +1,6 @@
 const {User, Article} = require('../model/model')
-const { sign, verify } = require('jsonwebtoken')
-const { sk } = require('../config/config')
+const { sign } = require('jsonwebtoken')
+const { sk, host } = require('../config/config')
 const formidable = require('formidable')
 const path = require('path')
 const fs = require('fs')
@@ -126,7 +126,7 @@ module.exports = {
             // console.log(file)
             const name = file.path.split('\\').pop()
             const newPath = '/upload/' + name
-            return 'http://localhost:9001' + newPath
+            return host + newPath
           })
           // console.log(res)
           resolve(res)
