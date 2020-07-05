@@ -126,7 +126,7 @@ module.exports = {
             // console.log(file)
             const name = file.path.split('\\').pop()
             // const newPath = '/upload' + name
-            return '/upload/' + name
+            return name
           })
           // console.log(res)
           resolve(res)
