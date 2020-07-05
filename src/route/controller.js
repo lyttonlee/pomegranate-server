@@ -114,7 +114,7 @@ module.exports = {
     // console.log(ctx.req)
     const form = formidable({ multiples: true })
     form.keepExtensions = true
-    form.uploadDir = path.join(__dirname, '../../public/upload')
+    form.uploadDir = path.join(__dirname, '../../public/pomegranate/upload')
     try {
       const r =  await new Promise((resolve, reject) => {
         form.parse(ctx.req, (err, fields, files) => {
@@ -126,7 +126,7 @@ module.exports = {
             // console.log(file)
             const name = file.path.split('\\').pop()
             // const newPath = '/upload' + name
-            return host + name
+            return '/upload/' + name
           })
           // console.log(res)
           resolve(res)
