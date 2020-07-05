@@ -125,7 +125,7 @@ module.exports = {
           const res = Object.values(files).map((file) => {
             console.log(file)
             const name = file.path.split('/').pop()
-            const newPath = '/upload/' + name
+            const newPath = '/pomegranate/upload/' + name
             return newPath
           })
           // console.log(res)
