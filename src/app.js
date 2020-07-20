@@ -31,7 +31,7 @@ const handleError = (ctx, next, error) => {
 app.use(handleError)
 
 // 连接数据库
-const uri = 'mongodb://localhost:27017/pomegranate'
+const uri = 'mongodb://39.108.210.247:27017/pomegranate'
 const connect = mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err) => {
   if (err) {
     console.log(err)

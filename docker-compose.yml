@@ -5,10 +5,13 @@ services:
     ports: 
       - "9001:9001"
     restart: always
+    container_name: server
     depends_on: 
       - db
   db: 
-    image: mongo
+    image: daocloud.io/library/mongo:3.4.8
     ports: 
       - "27017:27017"
     restart: always
+    container_name: dataBase
+  
