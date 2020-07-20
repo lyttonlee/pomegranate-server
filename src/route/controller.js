@@ -1,6 +1,6 @@
 const {User, Article} = require('../model/model')
-const { sign } = require('jsonwebtoken')
-const { sk, host } = require('../config/config')
+const { sign, verify } = require('jsonwebtoken')
+const { sk } = require('../config/config')
 const formidable = require('formidable')
 const path = require('path')
 const fs = require('fs')
@@ -36,7 +36,7 @@ module.exports = {
     }
   },
   async regin (ctx, next) {
-    console.log(ctx)
+    // console.log(ctx)
     let user = ctx.request.body
     user.createTime = new Date()
     const newUser = new User(user)
@@ -123,7 +123,7 @@ module.exports = {
             return
           }
           const res = Object.values(files).map((file) => {
-            console.log(file)
+            // console.log(file)
             const name = file.path.split('/').pop()
             const newPath = '/pomegranate/upload/' + name
             return newPath

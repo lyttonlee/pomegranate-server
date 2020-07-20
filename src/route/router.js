@@ -23,7 +23,7 @@ const jwt = async (ctx, next) => {
     await next()
   } catch (error) {
     if (error) {
-      console.log(error)
+      // console.log(error)
       ctx.status = 401
       ctx.body = {
         msg: '鉴权失败！'
