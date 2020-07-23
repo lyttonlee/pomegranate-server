@@ -19,7 +19,7 @@ const jwt = async (ctx, next) => {
   try {
     // console.log(token)
     const decode = verify(token, sk)
-    console.log(decode)
+    // console.log(decode)
     await next()
   } catch (error) {
     if (error) {
@@ -39,7 +39,8 @@ const {
   getArticleById,
   deleteArticle,
   updateArticle,
-  upload
+  upload,
+  getUploadToken
 } = require('./controller')
 const router = new Router({
   prefix: '/pomegranate/api'
@@ -54,5 +55,6 @@ router
   .delete('/article/:id', jwt, deleteArticle)
   .put('/article/:id', jwt, updateArticle)
   .post('/upload', jwt, upload)
+  .get('/upload/token', getUploadToken)
 
 module.exports = router

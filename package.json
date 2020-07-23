@@ -12,7 +12,8 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^9.0.1",
     "koa-static": "^5.0.0",
-    "mongoose": "^5.9.20"
+    "mongoose": "^5.9.20",
+    "qiniu": "^7.3.2"
   },
   "scripts": {
     "start": "nodemon src/app.js"

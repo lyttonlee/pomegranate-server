@@ -1,9 +1,10 @@
 const {User, Article} = require('../model/model')
 const { sign, verify } = require('jsonwebtoken')
-const { sk } = require('../config/config')
+const { sk, qiniuAK, qiniuSK, bucket } = require('../config/config')
 const formidable = require('formidable')
 const path = require('path')
 const fs = require('fs')
+const qiniu = require('qiniu')
 
 const successRes = (result, msg='成功') => {
   return {
@@ -20,6 +21,16 @@ const errorRes = (msg='失败') => {
   }
 }
 
+const createToken = (bucket) => {
+  const mac = new qiniu.auth.digest.Mac(qiniuAK, qiniuSK)
+  const options = {
+    scope: bucket,
+    expires: 10 * 60 * 1000 
+  }
+  const putPolicy = new qiniu.rs.PutPolicy(options)
+  return putPolicy.uploadToken(mac)
+}
+
 module.exports = {
   async login (ctx) {
     // console.log(ctx.request)
@@ -27,7 +38,7 @@ module.exports = {
     const user = await User.findOne({name, password})
     // console.log(user)
     if (user) {
-      const token = sign({ id: user._id }, sk, {expiresIn: '12h'})
+      const token = sign({ id: user._id }, sk, {expiresIn: '7day'})
       // const decode = verify(token, sk)
       // console.log(decode)
       ctx.body = successRes(token)
@@ -139,6 +150,15 @@ module.exports = {
       }
     } catch (error) {
       await next(error)
+    }
+  },
+
+  async getUploadToken (ctx, next) {
+    const token = createToken(bucket)
+    if (token) {
+      ctx.body = successRes(token)
+    } else {
+      ctx.body = errorRes('生成token失败，请重新再试!')
     }
   }
 }
