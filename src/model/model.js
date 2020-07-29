@@ -12,6 +12,7 @@ const UserSchema = new Schema({
 })
 
 const ArticleSchema = new Schema({
+  _id: String,
   title: String,
   content: String,
   time: Date,
